@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101B33">
+<title>iDISIPLIN YUSUF — Kad Intervensi Disiplin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#101B33;
+  --ink-2:#1B2A4A;
+  --paper:#FBF8F1;
+  --sand:#EFE6D2;
+  --sand-2:#E3D5B4;
+  --gold:#B07D22;
+  --gold-soft:#F5EBD6;
+  --green:#2E6E62;
+  --line:#D8CDB4;
+  --muted:#6B6350;
+  --shadow:0 1px 2px rgba(16,27,51,.06),0 8px 24px rgba(16,27,51,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+  font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+
+/* ---------- header ---------- */
+header{background:var(--ink);color:var(--sand);padding:28px 0 0}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand h1{
+  font-family:"Newsreader",serif;font-weight:500;
+  font-size:30px;line-height:1.1;margin:0;letter-spacing:-.01em;color:#fff;
+}
+.brand h1 em{font-style:italic;color:var(--sand-2)}
+.brand p{margin:0;font-size:13px;color:#A9B4C9}
+.tabs{display:flex;gap:2px;margin-top:22px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  appearance:none;border:0;background:transparent;color:#A9B4C9;
+  font-family:inherit;font-size:14px;font-weight:500;
+  padding:11px 16px;cursor:pointer;white-space:nowrap;
+  border-bottom:2px solid transparent;border-radius:6px 6px 0 0;
+}
+.tab:hover{color:#fff}
+.tab[aria-selected="true"]{color:var(--ink);background:var(--paper);border-bottom-color:var(--paper)}
+main{padding:32px 0 72px}
+
+/* ---------- shared ---------- */
+.eyebrow{
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin:0 0 6px
+}
+h2{font-family:"Newsreader",serif;font-weight:500;font-size:24px;margin:0 0 8px;letter-spacing:-.01em}
+h3{font-family:"Newsreader",serif;font-weight:500;font-size:19px;margin:0 0 6px}
+.lede{color:var(--muted);font-size:15px;margin:0 0 24px;max-width:60ch}
+.panel[hidden]{display:none}
+
+/* ---------- salah laku grid ---------- */
+.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+.pick{
+  text-align:left;font-family:inherit;font-size:15px;font-weight:500;color:var(--ink);
+  background:#fff;border:1px solid var(--line);border-radius:10px;
+  padding:14px 15px;cursor:pointer;transition:border-color .15s,transform .15s;
+}
+.pick:hover{border-color:var(--gold);transform:translateY(-1px)}
+.pick[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pick span{display:block;font-size:12px;font-weight:400;color:var(--muted);margin-top:3px}
+.pick[aria-pressed="true"] span{color:#A9B4C9}
+
+.result{margin-top:32px}
+.result-head{
+  border-left:3px solid var(--gold);padding:2px 0 2px 14px;margin-bottom:18px;
+}
+.result-head p{margin:0;font-size:14px;color:var(--muted)}
+.result-head strong{color:var(--ink)}
+
+/* ---------- tunjang ---------- */
+.tunjang{margin-bottom:34px}
+.tunjang-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:14px}
+.tunjang-head h3{margin:0}
+.tunjang-head .dom{font-size:12px;color:var(--muted);margin-left:auto}
+.letter{
+  font-family:"Newsreader",serif;font-size:15px;font-weight:600;color:#fff;
+  background:var(--green);width:26px;height:26px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+}
+
+/* ---------- kad ---------- */
+.cards{display:grid;gap:10px}
+.card{
+  width:100%;text-align:left;font-family:inherit;background:#fff;
+  border:1px solid var(--line);border-radius:10px;padding:15px 17px;
+  cursor:pointer;transition:border-color .15s,box-shadow .15s;
+}
+.card:hover{border-color:var(--gold);box-shadow:var(--shadow)}
+.card-top{display:flex;align-items:baseline;gap:10px}
+.card-top h4{font-family:"Newsreader",serif;font-weight:500;font-size:17px;margin:0;color:var(--ink)}
+.ayat{
+  font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--gold);
+  background:var(--gold-soft);border-radius:4px;padding:2px 7px;margin-left:auto;flex:none;
+}
+.card p{margin:5px 0 0;font-size:13.5px;color:var(--muted)}
+
+/* ---------- detail ---------- */
+dialog{
+  border:0;border-radius:14px;padding:0;max-width:560px;width:calc(100% - 32px);
+  background:var(--paper);color:var(--ink);box-shadow:0 24px 64px rgba(16,27,51,.28);
+}
+dialog::backdrop{background:rgba(16,27,51,.5)}
+.d-head{background:var(--ink);color:#fff;padding:22px 26px}
+.d-head .eyebrow{color:var(--sand-2)}
+.d-head h3{margin:0;color:#fff;font-size:23px}
+.d-head .ref{margin:8px 0 0;font-size:13px;color:#A9B4C9}
+.d-body{padding:22px 26px 26px}
+.d-body section{margin-bottom:20px}
+.d-body h5{
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);
+  font-weight:600;margin:0 0 8px
+}
+.d-body p{margin:0;font-size:14.5px}
+.d-body ol{margin:0;padding-left:20px;font-size:14.5px}
+.d-body ol li{margin-bottom:7px}
+.tugasan{background:var(--sand);border-radius:10px;padding:14px 16px}
+.tugasan p{font-size:14.5px}
+.close{
+  appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink);
+  font-family:inherit;font-size:14px;font-weight:500;padding:9px 18px;
+  border-radius:8px;cursor:pointer;width:100%;
+}
+.close:hover{border-color:var(--ink)}
+
+/* ---------- murabbi ---------- */
+.murabbi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:12px}
+.murabbi h3{margin-bottom:4px}
+.murabbi .ref{font-size:12px;color:var(--gold);font-weight:600;margin:0 0 10px}
+.murabbi p{margin:0 0 10px;font-size:14.5px}
+.murabbi ul{margin:0;padding-left:20px;font-size:14.5px;color:var(--ink)}
+.murabbi ul li{margin-bottom:6px}
+
+/* ---------- segmen ---------- */
+.seg{display:inline-flex;background:var(--sand);border-radius:9px;padding:3px;margin-bottom:4px}
+.seg-btn{
+  appearance:none;border:0;background:transparent;font-family:inherit;font-size:13.5px;font-weight:500;
+  color:var(--muted);padding:7px 15px;border-radius:7px;cursor:pointer;
+}
+.seg-btn[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(16,27,51,.08)}
+
+/* ---------- tetapan ---------- */
+.setup{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:16px}
+.setup label{display:block;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+.setup input{
+  display:block;width:100%;margin-top:5px;font-family:inherit;font-size:14px;font-weight:400;
+  color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:9px 11px;
+}
+.setup input:focus{border-color:var(--gold);outline:none}
+.nota-privasi{background:var(--gold-soft);border-radius:12px;padding:18px 22px}
+.nota-privasi h3{font-size:17px;margin:0 0 8px}
+.nota-privasi ul{margin:0;padding-left:20px;font-size:14px}
+.nota-privasi li{margin-bottom:6px}
+.awan{font-size:11px;font-weight:600;color:var(--green);letter-spacing:.03em}
+
+/* ---------- borang ---------- */
+.fields{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-bottom:10px}
+.d-body label,.full{display:block;font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+.d-body input,.d-body textarea{
+  display:block;width:100%;margin-top:5px;font-family:inherit;font-size:14.5px;font-weight:400;
+  color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 11px;
+}
+.d-body textarea{resize:vertical}
+.d-body input:focus,.d-body textarea:focus{border-color:var(--gold);outline:none}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.btn{
+  appearance:none;border:1px solid var(--ink);background:var(--ink);color:#fff;
+  font-family:inherit;font-size:14px;font-weight:500;padding:9px 16px;border-radius:8px;cursor:pointer;
+}
+.btn:hover{background:var(--ink-2)}
+.btn.ghost{background:#fff;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--ink);background:#fff}
+.hint{margin:0;font-size:12.5px;color:var(--green);min-height:18px;font-weight:500}
+
+/* ---------- rekod ---------- */
+#rekod-count{font-size:11px;background:var(--gold);color:#fff;border-radius:9px;padding:1px 7px;margin-left:2px}
+#rekod-count:empty{display:none}
+.rekod{background:#fff;border:1px solid var(--line);border-radius:10px;padding:15px 17px;margin-bottom:10px}
+.rekod-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.rekod-top strong{font-size:15px}
+.rekod-top .meta{font-size:12px;color:var(--muted);margin-left:auto}
+.rekod .nilai{font-size:12.5px;color:var(--gold);font-weight:600;margin:4px 0 0}
+.rekod .nota{margin:8px 0 0;font-size:14px;white-space:pre-wrap}
+.rekod .padam{
+  appearance:none;border:0;background:none;color:var(--muted);font-family:inherit;
+  font-size:12.5px;cursor:pointer;padding:0;margin-top:9px;text-decoration:underline;
+}
+.rekod .padam:hover{color:#9B2C2C}
+.kosong{color:var(--muted);font-size:14.5px;background:var(--sand);border-radius:10px;padding:18px 20px}
+
+/* ---------- cetak ---------- */
+#cetak-area{display:none}
+@media print{
+  header,main,footer,dialog{display:none!important}
+  #cetak-area{display:block;font-size:12pt}
+  body{background:#fff}
+  .p-sheet{page-break-after:always;padding:0 0 24pt}
+  .p-sheet:last-child{page-break-after:auto}
+  .p-sheet h1{font-family:"Newsreader",serif;font-size:15pt;font-weight:500;margin:0 0 2pt}
+  .p-sheet .p-sub{font-size:9pt;color:#555;margin:0 0 14pt;border-bottom:1px solid #bbb;padding-bottom:8pt}
+  .p-row{display:flex;gap:20pt;margin-bottom:10pt}
+  .p-row div{flex:1}
+  .p-lbl{font-size:8pt;letter-spacing:.08em;text-transform:uppercase;color:#777;margin:0 0 2pt}
+  .p-val{margin:0;font-size:11pt;border-bottom:1px solid #ddd;padding-bottom:3pt;min-height:16pt}
+  .p-block{margin-bottom:12pt}
+  .p-block ol{margin:4pt 0 0;padding-left:16pt}
+  .p-block li{margin-bottom:3pt}
+  .p-note{white-space:pre-wrap;border:1px solid #ddd;border-radius:4pt;padding:8pt;min-height:60pt;margin:4pt 0 0}
+  .p-sign{margin-top:24pt;display:flex;gap:30pt}
+  .p-sign div{flex:1;border-top:1px solid #999;padding-top:4pt;font-size:9pt;color:#555}
+}
+
+footer{border-top:1px solid var(--line);padding:22px 0 40px;font-size:12.5px;color:var(--muted)}
+footer p{margin:0 0 4px}
+
+@media (max-width:520px){
+  .brand h1{font-size:24px}
+  h2{font-size:21px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <h1>iDISIPLIN <em>Yusuf</em></h1>
+      <p>Kad intervensi disiplin berasaskan Surah Yusuf</p>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-panel="p-mula">Mula di sini</button>
+      <button class="tab" role="tab" aria-selected="false" data-panel="p-nilai">15 nilai teras</button>
+      <button class="tab" role="tab" aria-selected="false" data-panel="p-murabbi">Peranan murabbi</button>
+      <button class="tab" role="tab" aria-selected="false" data-panel="p-rekod">Rekod sesi <span id="rekod-count"></span></button>
+      <button class="tab" role="tab" aria-selected="false" data-panel="p-tetapan">Tetapan</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="panel" id="p-mula">
+    <p class="eyebrow">Langkah 1</p>
+    <h2>Apakah salah laku pelajar?</h2>
+    <p class="lede">Pilih satu. Aplikasi akan mencadangkan nilai teras Surah Yusuf yang paling sesuai untuk sesi bimbingan.</p>
+    <div class="grid" id="salahlaku"></div>
+    <div class="result" id="result" hidden>
+      <div class="result-head">
+        <p>Nilai teras dicadangkan untuk <strong id="r-label"></strong></p>
+      </div>
+      <div class="cards" id="r-cards"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-nilai" hidden>
+    <p class="eyebrow">Model YUSUF</p>
+    <h2>Lima tunjang, lima belas nilai</h2>
+    <p class="lede">Setiap nilai berpaut pada satu peristiwa dalam Surah Yusuf. Ketik mana-mana kad untuk melihat soalan refleksi dan tugasan.</p>
+    <div id="tunjang-list"></div>
+  </div>
+
+  <div class="panel" id="p-murabbi" hidden>
+    <p class="eyebrow">Lapisan penyampaian</p>
+    <h2>Peranan ustaz dan ustazah</h2>
+    <p class="lede">Di kolej matrikulasi, pelajar tinggal jauh daripada keluarga. Dua kemahiran ini asalnya tanggungjawab ibu bapa dalam Surah Yusuf, dan kini digalas oleh ustaz dan ustazah sebagai murabbi.</p>
+    <div id="murabbi-list"></div>
+  </div>
+
+  <div class="panel" id="p-rekod" hidden>
+    <p class="eyebrow">Simpanan</p>
+    <h2>Rekod sesi bimbingan</h2>
+    <p class="lede">Cetak atau simpan sebagai PDF untuk fail pelajar.</p>
+    <div class="seg" role="tablist">
+      <button class="seg-btn" data-view="peranti" aria-selected="true">Peranti ini</button>
+      <button class="seg-btn" data-view="kongsi" aria-selected="false">Rekod dikongsi</button>
+    </div>
+    <div class="bar">
+      <button class="btn" id="cetak-semua">Cetak semua rekod</button>
+      <button class="btn ghost" id="padam-semua">Kosongkan peranti</button>
+      <button class="btn ghost" id="muat-semula" hidden>Muat semula</button>
+    </div>
+    <div id="rekod-list"></div>
+  </div>
+
+  <div class="panel" id="p-tetapan" hidden>
+    <p class="eyebrow">Perkongsian</p>
+    <h2>Sambungan Google Sheet</h2>
+    <p class="lede">Masukkan pautan Apps Script Web App yang disediakan penyelaras. Selepas disambung, setiap rekod yang disimpan akan turut dihantar ke Sheet bersama, dan Dr. boleh melihat rekod ustaz dan ustazah lain.</p>
+    <div class="setup">
+      <label class="full">Pautan Web App
+        <input id="s-url" type="url" placeholder="https://script.google.com/macros/s/.../exec">
+      </label>
+      <div class="bar">
+        <button class="btn" id="s-simpan">Sambung</button>
+        <button class="btn ghost" id="s-putus">Putuskan sambungan</button>
+      </div>
+      <p class="hint" id="s-status"></p>
+    </div>
+    <div class="nota-privasi">
+      <h3>Sebelum menyambung</h3>
+      <ul>
+        <li>Rekod disiplin adalah data peribadi pelajar. Hadkan akses Sheet kepada ustaz dan ustazah yang terlibat sahaja.</li>
+        <li>Dapatkan kelulusan pihak pengurusan kolej sebelum menyimpan data pelajar sebenar.</li>
+        <li>Untuk demonstrasi pertandingan, gunakan nama samaran.</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<footer class="wrap">
+  <p>iDISIPLIN YUSUF &middot; Unit Pendidikan Islam &amp; Moral</p>
+  <p>Kandungan berasaskan analisis tematik Surah Yusuf. Draf untuk semakan.</p>
+</footer>
+
+<div id="cetak-area"></div>
+
+<dialog id="detail">
+  <div class="d-head">
+    <p class="eyebrow" id="d-tunjang"></p>
+    <h3 id="d-title"></h3>
+    <p class="ref" id="d-ref"></p>
+  </div>
+  <div class="d-body">
+    <section>
+      <h5>Peristiwa dalam surah</h5>
+      <p id="d-kisah"></p>
+    </section>
+    <section>
+      <h5>Soalan refleksi</h5>
+      <ol id="d-soalan"></ol>
+    </section>
+    <section class="tugasan">
+      <h5>Tugasan pelajar</h5>
+      <p id="d-tugasan"></p>
+    </section>
+    <section>
+      <h5>Rekod sesi</h5>
+      <div class="fields">
+        <label>Nama pelajar<input id="f-nama" type="text" placeholder="Nama penuh"></label>
+        <label>Kelas / no. matrik<input id="f-kelas" type="text" placeholder="Contoh: K1 / MS2410123"></label>
+      </div>
+      <div class="fields">
+        <label>Nama mentor<input id="f-mentor" type="text" placeholder="Ustaz / Ustazah"></label>
+        <label>Tindakan susulan<input id="f-susulan" type="text" placeholder="Contoh: semak semula 2 minggu"></label>
+      </div>
+      <label class="full">Catatan mentor<textarea id="f-nota" rows="4" placeholder="Ringkasan perbualan, respons pelajar, tindakan susulan"></textarea></label>
+      <div class="bar">
+        <button class="btn" id="f-simpan">Simpan rekod</button>
+        <button class="btn ghost" id="f-cetak">Cetak borang sesi</button>
+      </div>
+      <p class="hint" id="f-status"></p>
+    </section>
+    <button class="close" onclick="document.getElementById('detail').close()">Tutup</button>
+  </div>
+</dialog>
+
+<script>
+const TUNJANG = [
+  {k:"Y", nama:"Yakin", domain:"Akidah", warna:"#2E6E62"},
+  {k:"U", nama:"Ubudiyyah", domain:"Ibadah"},
+  {k:"S", nama:"Sabar", domain:"Kawalan emosi"},
+  {k:"U", nama:"Usaha", domain:"Tindakan berhikmah"},
+  {k:"F", nama:"Fikrah", domain:"Daya tahan"}
+];
+
+const NILAI = [
+  {id:"y1", t:0, nama:"Penerapan nilai keimanan", ayat:"12:37-38",
+   ringkas:"Iman sebagai benteng sebelum apa-apa nasihat lain.",
+   kisah:"Nabi Yusuf a.s. sengaja melewatkan tafsiran mimpi dua pemuda di penjara, dan mengajak mereka kepada tauhid terlebih dahulu sebelum menjawab soalan mereka.",
+   soalan:["Sebelum kamu buat perkara itu, adakah kamu terfikir Allah sedang melihat?","Apa yang kamu rasa sekarang bila mengingatinya semula?","Pada pandangan kamu, kenapa Nabi Yusuf pilih untuk bercakap tentang iman dahulu?"],
+   tugasan:"Tulis lima baris tentang satu perkara yang kamu lakukan minggu ini semata-mata kerana Allah, bukan kerana dilihat orang."},
+  {id:"y2", t:0, nama:"Waspada tipu daya syaitan", ayat:"12:5",
+   ringkas:"Mengenal pintu masuk hasad, marah dan dorongan negatif.",
+   kisah:"Nabi Yaacub a.s. berpesan kepada Nabi Yusuf agar tidak menceritakan mimpinya kepada saudara-saudaranya, kerana syaitan adalah musuh yang nyata bagi manusia.",
+   soalan:["Siapa atau apa yang mula-mula mendorong kamu melakukannya?","Pada bahagian mana kamu sebenarnya masih boleh berhenti?","Apa tanda awal yang kamu abaikan?"],
+   tugasan:"Senaraikan tiga situasi yang kamu tahu akan menarik kamu kembali kepada salah laku ini, dan satu cara mengelak bagi setiap satu."},
+  {id:"y3", t:0, nama:"Peneguhan keimanan", ayat:"12:23",
+   ringkas:"Iman yang kukuh menahan diri pada saat paling sukar.",
+   kisah:"Ketika berhadapan dengan godaan isteri al-Aziz dalam keadaan pintu berkunci, Nabi Yusuf a.s. berlindung kepada Allah dan menolak dengan tegas.",
+   soalan:["Pernahkah kamu berjaya menolak sesuatu yang salah? Apa yang menguatkan kamu ketika itu?","Apa beza keadaan itu dengan keadaan kamu sekarang?","Apa yang boleh menguatkan kamu lain kali?"],
+   tugasan:"Hafal doa perlindungan pilihan kamu dan baca setiap kali menghadapi situasi berisiko selama seminggu."},
+
+  {id:"u1", t:1, nama:"Galakan berdoa", ayat:"12:33",
+   ringkas:"Mengadu kepada Allah ketika terhimpit, bukan melepaskan geram.",
+   kisah:"Nabi Yusuf a.s. berdoa memohon agar penjara lebih baik baginya daripada tunduk kepada ajakan yang mengundang dosa.",
+   soalan:["Bila kali terakhir kamu berdoa kerana benar-benar buntu?","Apa yang biasanya kamu buat bila tertekan?","Kalau boleh minta satu perkara daripada Allah sekarang, apa dia?"],
+   tugasan:"Tulis satu doa dengan ayat kamu sendiri tentang masalah yang kamu hadapi. Baca selepas setiap solat selama tujuh hari."},
+  {id:"u2", t:1, nama:"Tawakkal kepada Allah", ayat:"12:86",
+   ringkas:"Menyerahkan hasil kepada Allah selepas berusaha.",
+   kisah:"Nabi Yaacub a.s. menyatakan bahawa baginda hanya mengadukan kesusahan dan kesedihannya kepada Allah, bukan kepada manusia.",
+   soalan:["Apa bahagian masalah ini yang benar-benar dalam kawalan kamu?","Apa bahagian yang bukan?","Bagaimana kamu boleh berhenti membebankan diri dengan bahagian yang kedua?"],
+   tugasan:"Lukis dua ruangan: 'Saya boleh usahakan' dan 'Saya serahkan kepada Allah'. Isikan masalah kamu ke dalam kedua-duanya."},
+  {id:"u3", t:1, nama:"Doa orang teraniaya dimakbulkan", ayat:"12:33-34",
+   ringkas:"Untuk pelajar yang menjadi mangsa, bukan pelaku.",
+   kisah:"Allah memperkenankan doa Nabi Yusuf a.s. dan memalingkan tipu daya wanita-wanita itu daripada baginda.",
+   soalan:["Apa yang paling berat kamu rasa sekarang?","Adakah kamu rasa tiada siapa yang tahu apa yang berlaku?","Apa yang kamu mahu berlaku selepas ini?"],
+   tugasan:"Rekod apa yang berlaku secara bertulis, dan bincang dengan seorang ustaz atau ustazah yang kamu percaya dalam masa tiga hari."},
+
+  {id:"s1", t:2, nama:"Menahan marah", ayat:"12:77",
+   ringkas:"Menyimpan reaksi ketika dituduh atau dicabar.",
+   kisah:"Ketika saudara-saudaranya melemparkan tuduhan buruk, Nabi Yusuf a.s. menyembunyikan perasaannya dan tidak membalas ketika itu.",
+   soalan:["Apa yang berlaku sejurus sebelum kamu hilang sabar?","Kalau kamu boleh ulang saat itu, apa yang kamu buat berbeza?","Apa yang kamu rasa sepuluh minit selepas kejadian?"],
+   tugasan:"Selama seminggu, catat setiap kali kamu rasa marah: apa punca, apa yang kamu buat, dan apa akibatnya."},
+  {id:"s2", t:2, nama:"Memaafkan kesalahan", ayat:"12:92",
+   ringkas:"Melepaskan dendam supaya konflik tidak berulang.",
+   kisah:"Nabi Yusuf a.s. berkata kepada saudara-saudaranya bahawa tiada cercaan terhadap mereka pada hari itu, dan memohon agar Allah mengampuni mereka.",
+   soalan:["Siapa yang kamu masih simpan hati terhadapnya?","Apa yang kamu dapat daripada terus menyimpannya?","Apa yang perlu berlaku sebelum kamu boleh melepaskannya?"],
+   tugasan:"Tulis surat kepada orang tersebut. Kamu tidak perlu menghantarnya."},
+  {id:"s3", t:2, nama:"Kesabaran yang sempurna", ayat:"12:83",
+   ringkas:"Bertahan tanpa memberontak walaupun ujian berlarutan.",
+   kisah:"Setelah kehilangan anak kedua, Nabi Yaacub a.s. tetap memilih kesabaran yang baik dan mengharapkan pertolongan Allah.",
+   soalan:["Berapa lama kamu sudah menanggung perkara ini?","Apa yang kamu buat setakat ini untuk bertahan?","Apa yang boleh membantu kamu bertahan minggu depan?"],
+   tugasan:"Tetapkan satu sasaran kecil dan realistik untuk minggu ini sahaja. Laporkan kepada mentor pada hujung minggu."},
+
+  {id:"n1", t:3, nama:"Bijak mengatur tindakan", ayat:"12:67",
+   ringkas:"Merancang langkah untuk mengelak masalah berulang.",
+   kisah:"Nabi Yaacub a.s. mengarahkan anak-anaknya masuk ke Mesir melalui pintu yang berlainan sebagai langkah berjaga-jaga, tanpa menafikan takdir Allah.",
+   soalan:["Apa corak yang kamu nampak dalam kesalahan kamu selama ini?","Bila dan di mana ia paling kerap berlaku?","Apa satu perubahan kecil yang boleh memutuskan corak itu?"],
+   tugasan:"Tulis pelan tiga langkah untuk mengelak situasi berisiko, dan tunjukkan kepada mentor untuk disemak."},
+  {id:"n2", t:3, nama:"Membela diri menegakkan kebenaran", ayat:"12:50",
+   ringkas:"Bersuara dengan cara betul apabila dituduh salah.",
+   kisah:"Nabi Yusuf a.s. enggan keluar dari penjara sehingga kedudukan sebenar kesnya disiasat dan namanya dibersihkan.",
+   soalan:["Apa sebenarnya yang berlaku, mengikut versi kamu?","Adakah kamu sudah menyatakannya kepada pihak yang sepatutnya?","Apa yang menghalang kamu daripada bersuara?"],
+   tugasan:"Tulis kronologi kejadian secara jujur dan tertib, kemudian serahkan kepada pihak yang menguruskan kes kamu."},
+  {id:"n3", t:3, nama:"Berpendirian teguh menjaga kemuliaan", ayat:"12:24",
+   ringkas:"Menjauhkan diri daripada pergaulan yang mengundang fitnah.",
+   kisah:"Nabi Yusuf a.s. tidak hanya menolak, tetapi terus berlari meninggalkan tempat kejadian menuju ke pintu.",
+   soalan:["Adakah kamu tahu perkara itu salah sebelum kamu melakukannya?","Kenapa kamu tetap kekal di situ?","Apa yang kamu akan buat kalau situasi yang sama berulang?"],
+   tugasan:"Senaraikan tempat dan waktu yang kamu perlu elakkan, dan tetapkan aktiviti ganti untuk waktu-waktu tersebut."},
+
+  {id:"f1", t:4, nama:"Tidak mudah berputus asa", ayat:"12:87",
+   ringkas:"Menolak jalan singkat ketika rasa buntu.",
+   kisah:"Nabi Yaacub a.s. berpesan kepada anak-anaknya agar terus mencari dan jangan berputus asa daripada rahmat Allah.",
+   soalan:["Apa yang buat kamu rasa tiada jalan keluar?","Apa satu perkara yang masih boleh kamu buat hari ini?","Siapa yang kamu boleh hubungi bila rasa berat?"],
+   tugasan:"Tulis tiga perkara yang kamu masih ada dan syukuri. Simpan dan baca semula bila rasa berat."},
+  {id:"f2", t:4, nama:"Hikmah di sebalik ujian", ayat:"12:56",
+   ringkas:"Melihat kesukaran sebagai laluan, bukan penamat.",
+   kisah:"Setelah bertahun-tahun dipisahkan daripada keluarga, difitnah dan dipenjarakan, Nabi Yusuf a.s. akhirnya diberi kedudukan di bumi Mesir.",
+   soalan:["Apa perkara sukar yang pernah kamu lalui dan akhirnya membawa kebaikan?","Apa yang kamu belajar daripada keadaan kamu sekarang?","Kamu mahu berada di mana tiga tahun dari sekarang?"],
+   tugasan:"Lukis garis masa hidup kamu, tandakan tiga titik sukar, dan tulis satu perkara yang kamu pelajari daripada setiap satu."},
+  {id:"f3", t:4, nama:"Kebenaran pasti tersingkap", ayat:"12:51",
+   ringkas:"Tiada perbuatan tersembunyi yang kekal tersembunyi.",
+   kisah:"Isteri al-Aziz akhirnya mengakui di hadapan orang ramai bahawa dialah yang menggoda Nabi Yusuf a.s., dan baginda adalah orang yang benar.",
+   soalan:["Adakah ada perkara yang kamu masih sembunyikan?","Apa yang kamu rasa setiap kali terfikir tentangnya?","Apa yang paling kamu takut kalau ia diketahui?"],
+   tugasan:"Pilih satu perkara yang kamu sembunyikan dan luahkan kepada seorang yang kamu percaya minggu ini."}
+];
+
+const MURABBI = [
+  {nama:"Komunikasi berhikmah", ayat:"Surah Yusuf 12:4-5",
+   kisah:"Nabi Yaacub a.s. mendengar mimpi anaknya sepenuhnya sebelum memberi respons, dan memanggilnya dengan panggilan kasih sayang.",
+   amal:["Dengar cerita pelajar sampai habis sebelum memberi apa-apa komen.","Guna panggilan yang menghormati, bukan label salah laku.","Tanya soalan, jangan buat andaian.","Pilih tempat yang tidak mengaibkan pelajar di hadapan rakan."]},
+  {nama:"Nasihat dan bimbingan berterusan", ayat:"Surah Yusuf 12:5",
+   kisah:"Nabi Yaacub a.s. tidak sekadar menegur, tetapi memberi amaran khusus, sebab yang jelas, dan langkah yang perlu diambil.",
+   amal:["Nyatakan sebab, bukan sekadar larangan.","Beri satu langkah konkrit, bukan nasihat umum.","Semak semula selepas satu atau dua minggu.","Akui kemajuan kecil sebelum menyebut kekurangan."]}
+];
+
+const SALAHLAKU = [
+  {nama:"Ponteng kuliah", ket:"Ketidakhadiran berulang", n:["n1","y2","f2"]},
+  {nama:"Bergaduh", ket:"Pertelingkahan fizikal", n:["s1","s2","y2"]},
+  {nama:"Buli", ket:"Pelaku buli", n:["s2","y1","n3"]},
+  {nama:"Mangsa buli", ket:"Pelajar teraniaya", n:["u3","f2","f3"]},
+  {nama:"Melawan pensyarah", ket:"Salah laku verbal", n:["s1","y1","s2"]},
+  {nama:"Merokok / vape", ket:"Kesalahan asrama", n:["n3","n1","y3"]},
+  {nama:"Pergaulan bebas", ket:"Isu batas syariat", n:["y3","n3","y2"]},
+  {nama:"Vandalisme", ket:"Merosakkan harta", n:["s1","n1","y1"]},
+  {nama:"Peras ugut", ket:"Ugutan dan gengsterisme", n:["y2","n2","s2"]},
+  {nama:"Tekanan akademik", ket:"Burnout, mahu berhenti", n:["f1","u1","u2"]},
+  {nama:"Kesalahan asrama", ket:"Keluar tanpa kebenaran", n:["n1","y1","n3"]},
+  {nama:"Dituduh tanpa bukti", ket:"Pelajar mahu membela diri", n:["n2","f3","s3"]}
+];
+
+/* ---------- render ---------- */
+const byId = id => NILAI.find(n => n.id === id);
+
+function cardHTML(n){
+  return `<button class="card" data-id="${n.id}">
+    <div class="card-top"><h4>${n.nama}</h4><span class="ayat">${n.ayat}</span></div>
+    <p>${n.ringkas}</p></button>`;
+}
+
+document.getElementById("salahlaku").innerHTML = SALAHLAKU.map((s,i) =>
+  `<button class="pick" data-i="${i}" aria-pressed="false">${s.nama}<span>${s.ket}</span></button>`
+).join("");
+
+document.getElementById("tunjang-list").innerHTML = TUNJANG.map((t,i) => `
+  <div class="tunjang">
+    <div class="tunjang-head">
+      <span class="letter">${t.k}</span>
+      <h3>${t.nama}</h3>
+      <span class="dom">${t.domain}</span>
+    </div>
+    <div class="cards">${NILAI.filter(n => n.t === i).map(cardHTML).join("")}</div>
+  </div>`).join("");
+
+document.getElementById("murabbi-list").innerHTML = MURABBI.map(m => `
+  <div class="murabbi">
+    <h3>${m.nama}</h3>
+    <p class="ref">${m.ayat}</p>
+    <p>${m.kisah}</p>
+    <ul>${m.amal.map(a => `<li>${a}</li>`).join("")}</ul>
+  </div>`).join("");
+
+/* ---------- interaksi ---------- */
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", t === tab));
+    document.querySelectorAll(".panel").forEach(p => p.hidden = p.id !== tab.dataset.panel);
+    window.scrollTo({top:0});
+  };
+});
+
+document.getElementById("salahlaku").onclick = e => {
+  const btn = e.target.closest(".pick");
+  if(!btn) return;
+  document.querySelectorAll(".pick").forEach(p => p.setAttribute("aria-pressed", p === btn));
+  const s = SALAHLAKU[btn.dataset.i];
+  document.getElementById("r-label").textContent = s.nama.toLowerCase();
+  document.getElementById("r-cards").innerHTML = s.n.map(id => cardHTML(byId(id))).join("");
+  document.getElementById("result").hidden = false;
+};
+
+/* ---------- simpanan ---------- */
+const KEY = "idisiplin-yusuf-rekod";
+const URLKEY = "idisiplin-yusuf-url";
+let memori = [];
+let memoriUrl = "";
+const boleh = (() => { try { localStorage.setItem("__t","1"); localStorage.removeItem("__t"); return true; } catch(e){ return false; } })();
+
+function baca(){
+  if(!boleh) return memori;
+  try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e){ return []; }
+}
+function tulis(arr){
+  if(boleh){ try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch(e){} }
+  memori = arr;
+}
+function getUrl(){
+  if(!boleh) return memoriUrl;
+  try { return localStorage.getItem(URLKEY) || ""; } catch(e){ return ""; }
+}
+function setUrl(u){
+  if(boleh){ try { u ? localStorage.setItem(URLKEY,u) : localStorage.removeItem(URLKEY); } catch(e){} }
+  memoriUrl = u;
+}
+
+/* hantar ke Google Sheet. text/plain mengelak preflight CORS */
+async function hantar(r){
+  const u = getUrl();
+  if(!u) return false;
+  await fetch(u, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body: JSON.stringify(r) });
+  return true;
+}
+async function ambilKongsi(){
+  const u = getUrl();
+  if(!u) throw new Error("belum-sambung");
+  const res = await fetch(u + "?action=list");
+  return await res.json();
+}
+
+function tarikhKini(){
+  const d = new Date();
+  return String(d.getDate()).padStart(2,"0")+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+d.getFullYear();
+}
+
+/* ---------- borang cetak ---------- */
+function sheet(r){
+  const n = byId(r.nilaiId);
+  const t = TUNJANG[n.t];
+  return `<div class="p-sheet">
+    <h1>Borang rekod sesi bimbingan</h1>
+    <p class="p-sub">iDISIPLIN YUSUF &middot; Unit Pendidikan Islam &amp; Moral</p>
+    <div class="p-row">
+      <div><p class="p-lbl">Nama pelajar</p><p class="p-val">${r.nama || ""}</p></div>
+      <div><p class="p-lbl">Kelas / no. matrik</p><p class="p-val">${r.kelas || ""}</p></div>
+      <div><p class="p-lbl">Tarikh</p><p class="p-val">${r.tarikh || ""}</p></div>
+    </div>
+    <div class="p-row">
+      <div><p class="p-lbl">Nilai teras</p><p class="p-val">${n.nama}</p></div>
+      <div><p class="p-lbl">Tunjang</p><p class="p-val">${t.nama} &mdash; ${t.domain}</p></div>
+      <div><p class="p-lbl">Rujukan</p><p class="p-val">Surah Yusuf ${n.ayat}</p></div>
+    </div>
+    <div class="p-row">
+      <div><p class="p-lbl">Nama mentor</p><p class="p-val">${r.mentor || ""}</p></div>
+      <div><p class="p-lbl">Tindakan susulan</p><p class="p-val">${r.susulan || ""}</p></div>
+    </div>
+    <div class="p-block"><p class="p-lbl">Peristiwa dalam surah</p><p>${n.kisah}</p></div>
+    <div class="p-block"><p class="p-lbl">Soalan refleksi</p><ol>${n.soalan.map(s=>`<li>${s}</li>`).join("")}</ol></div>
+    <div class="p-block"><p class="p-lbl">Tugasan pelajar</p><p>${n.tugasan}</p></div>
+    <div class="p-block"><p class="p-lbl">Catatan mentor</p><div class="p-note">${(r.nota||"").replace(/</g,"&lt;")}</div></div>
+    <div class="p-sign"><div>Tandatangan mentor</div><div>Tandatangan pelajar</div></div>
+  </div>`;
+}
+function cetak(rekod){
+  document.getElementById("cetak-area").innerHTML = rekod.map(sheet).join("");
+  window.print();
+}
+
+/* ---------- senarai rekod ---------- */
+let paparan = "peranti";
+let cacheKongsi = [];
+
+function kadRekod(r, i, kongsi){
+  const n = byId(r.nilaiId);
+  if(!n) return "";
+  return `<div class="rekod">
+    <div class="rekod-top"><strong>${r.nama || "Tanpa nama"}</strong>
+      <span class="meta">${r.kelas ? r.kelas + " &middot; " : ""}${r.tarikh || ""}</span></div>
+    <p class="nilai">${n.nama} &middot; Surah Yusuf ${n.ayat}</p>
+    ${r.mentor ? `<p class="awan">Mentor: ${r.mentor}</p>` : ""}
+    ${r.nota ? `<p class="nota">${String(r.nota).replace(/</g,"&lt;")}</p>` : ""}
+    ${r.susulan ? `<p class="nota"><strong>Susulan:</strong> ${String(r.susulan).replace(/</g,"&lt;")}</p>` : ""}
+    ${kongsi ? "" : `<button class="padam" data-i="${i}">Padam rekod ini</button>`}
+  </div>`;
+}
+
+function paparRekod(){
+  const box = document.getElementById("rekod-list");
+  const arr = baca();
+  document.getElementById("rekod-count").textContent = arr.length || "";
+  document.getElementById("padam-semua").hidden = paparan === "kongsi";
+  document.getElementById("muat-semula").hidden = paparan !== "kongsi";
+
+  if(paparan === "peranti"){
+    box.innerHTML = arr.length
+      ? arr.map((r,i) => kadRekod(r,i,false)).join("")
+      : `<p class="kosong">Belum ada rekod. Buka mana-mana kad nilai, isi catatan mentor, dan tekan Simpan rekod.</p>`;
+    return;
+  }
+
+  if(!getUrl()){
+    box.innerHTML = `<p class="kosong">Belum disambung ke Google Sheet. Buka tab Tetapan untuk memasukkan pautan Web App.</p>`;
+    return;
+  }
+  box.innerHTML = `<p class="kosong">Memuatkan rekod dikongsi&hellip;</p>`;
+  ambilKongsi().then(data => {
+    cacheKongsi = Array.isArray(data) ? data : [];
+    box.innerHTML = cacheKongsi.length
+      ? cacheKongsi.map((r,i) => kadRekod(r,i,true)).join("")
+      : `<p class="kosong">Tiada rekod dikongsi lagi.</p>`;
+  }).catch(() => {
+    box.innerHTML = `<p class="kosong">Tidak dapat menghubungi Google Sheet. Semak pautan Web App dalam tab Tetapan, dan pastikan aksesnya ditetapkan kepada sesiapa sahaja.</p>`;
+  });
+}
+
+document.querySelectorAll(".seg-btn").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll(".seg-btn").forEach(x => x.setAttribute("aria-selected", x === b));
+    paparan = b.dataset.view;
+    paparRekod();
+  };
+});
+document.getElementById("muat-semula").onclick = paparRekod;
+
+/* ---------- tetapan ---------- */
+document.getElementById("s-url").value = getUrl();
+document.getElementById("s-status").textContent = getUrl() ? "Bersambung." : "";
+
+document.getElementById("s-simpan").onclick = async () => {
+  const u = document.getElementById("s-url").value.trim();
+  const st = document.getElementById("s-status");
+  if(!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec/.test(u)){
+    st.style.color = "#9B2C2C";
+    st.textContent = "Pautan tidak sah. Ia sepatutnya berakhir dengan /exec.";
+    return;
+  }
+  setUrl(u);
+  st.style.color = ""; st.textContent = "Menguji sambungan\u2026";
+  try { await ambilKongsi(); st.textContent = "Bersambung. Rekod baharu akan dihantar ke Sheet."; }
+  catch(e){ st.style.color = "#9B2C2C"; st.textContent = "Pautan disimpan, tetapi Sheet tidak dapat dihubungi. Semak tetapan akses Web App."; }
+};
+
+document.getElementById("s-putus").onclick = () => {
+  setUrl("");
+  document.getElementById("s-url").value = "";
+  document.getElementById("s-status").style.color = "";
+  document.getElementById("s-status").textContent = "Sambungan diputuskan. Rekod disimpan pada peranti sahaja.";
+};
+
+let nilaiSemasa = null;
+
+function ambilBorang(){
+  return {
+    nilaiId: nilaiSemasa.id,
+    nilaiNama: nilaiSemasa.nama,
+    ayat: nilaiSemasa.ayat,
+    tunjang: TUNJANG[nilaiSemasa.t].nama,
+    nama: document.getElementById("f-nama").value.trim(),
+    kelas: document.getElementById("f-kelas").value.trim(),
+    mentor: document.getElementById("f-mentor").value.trim(),
+    susulan: document.getElementById("f-susulan").value.trim(),
+    nota: document.getElementById("f-nota").value.trim(),
+    tarikh: tarikhKini()
+  };
+}
+
+document.getElementById("f-simpan").onclick = async () => {
+  const st = document.getElementById("f-status");
+  const r = ambilBorang();
+  if(!r.nama){ st.style.color = "#9B2C2C"; st.textContent = "Isi nama pelajar dahulu."; return; }
+  const arr = baca(); arr.unshift(r); tulis(arr); paparRekod();
+  st.style.color = "";
+  if(!getUrl()){
+    st.textContent = boleh ? "Rekod disimpan pada peranti ini." : "Rekod disimpan untuk sesi ini sahaja.";
+    return;
+  }
+  st.textContent = "Menghantar ke Sheet\u2026";
+  try { await hantar(r); st.textContent = "Rekod disimpan dan dikongsi."; }
+  catch(e){ st.style.color = "#9B2C2C"; st.textContent = "Disimpan pada peranti, tetapi gagal dihantar ke Sheet."; }
+};
+
+document.getElementById("f-cetak").onclick = () => cetak([ambilBorang()]);
+
+document.getElementById("cetak-semua").onclick = () => {
+  const arr = paparan === "kongsi" ? cacheKongsi : baca();
+  if(!arr.length){ alert("Belum ada rekod untuk dicetak."); return; }
+  cetak(arr);
+};
+
+document.getElementById("padam-semua").onclick = () => {
+  if(!baca().length) return;
+  if(confirm("Padam semua rekod pada peranti ini? Rekod dalam Google Sheet tidak terjejas.")){
+    tulis([]); paparRekod();
+  }
+};
+
+document.getElementById("rekod-list").onclick = e => {
+  const b = e.target.closest(".padam");
+  if(!b) return;
+  const arr = baca(); arr.splice(+b.dataset.i, 1); tulis(arr); paparRekod();
+};
+
+paparRekod();
+
+const dlg = document.getElementById("detail");
+document.body.addEventListener("click", e => {
+  const c = e.target.closest(".card");
+  if(!c) return;
+  const n = byId(c.dataset.id);
+  nilaiSemasa = n;
+  ["f-nama","f-kelas","f-nota","f-susulan"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("f-status").textContent = "";
+  document.getElementById("d-tunjang").textContent = TUNJANG[n.t].nama + " · " + TUNJANG[n.t].domain;
+  document.getElementById("d-title").textContent = n.nama;
+  document.getElementById("d-ref").textContent = "Surah Yusuf " + n.ayat;
+  document.getElementById("d-kisah").textContent = n.kisah;
+  document.getElementById("d-soalan").innerHTML = n.soalan.map(s => `<li>${s}</li>`).join("");
+  document.getElementById("d-tugasan").textContent = n.tugasan;
+  dlg.showModal();
+});
+dlg.addEventListener("click", e => { if(e.target === dlg) dlg.close(); });
+</script>
+</body>
+</html>
